@@ -42,9 +42,5 @@ for n in range(args.guests):
 
 session.commit()
 
-
-  # ask turtles [ update-happiness ]
-  # count-boring-groups
-  # update-labels
-  # ask turtles [ spread-out-vertically ]
-  # reset-ticks
+for g in session.query(model.Guest).all():
+    g.update_happiness()
