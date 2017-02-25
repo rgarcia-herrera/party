@@ -1,9 +1,9 @@
 import argparse
-from time import sleep
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+import random
 import model
 
 ################################
@@ -12,6 +12,8 @@ import model
 parser = argparse.ArgumentParser(description='Setup party simulation by creating and populating groups and guests.')
 parser.add_argument('--db_url', default='sqlite:///party_sim.sqlite', help='DB URL, default: sqlite:///party_sim.sqlite')
 parser.add_argument('--guests', type=int, default=100)
+parser.add_argument('--min_tolerance', type=float, default=0.25)
+parser.add_argument('--max_tolerance', type=float, default=0.30)
 parser.add_argument('--groups', type=int, default=10)
 args = parser.parse_args()
 
@@ -35,7 +37,7 @@ session.commit()
 
 # create a bunch of guests    
 for n in range(args.guests):
-    guest=model.Guest()
+    guest=model.Guest(tolerance=random.uniform(args.min_tolerance, args.max_tolerance))
     session.add(guest)
 
 session.commit()

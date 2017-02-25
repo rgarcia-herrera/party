@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from sqlalchemy import MetaData, Table, Column, Integer, ForeignKey, String, Float, Boolean
+from sqlalchemy import Column, Integer, ForeignKey, Float, Boolean
 from sqlalchemy.orm import mapper, relationship
 from sqlalchemy.ext.declarative import declarative_base
 import random
@@ -15,6 +15,9 @@ class Group(Base):
     def boring(self):
         return True
 
+    def __repr__(self):
+        return "group%s" % self.id
+    
     
 class Guest(Base):
     
@@ -25,20 +28,24 @@ class Guest(Base):
 
     happy   = Column(Boolean)
     sex = Column(Boolean)
-
-    def __init__(self):
+    tolerance = Column(Float)
+    
+    def __init__(self, tolerance):
         self.happy = random.choice([True, False])
         self.sex = random.choice([True, False])
         self.group = random.choice(session.query(Group).all())
+        self.tolerance = tolerance
+        
+    def update_happiness(self):
+        total = len(self.group.guests)
+        same = session.query(Guest).filter(
+            Guest.sex == self.sex,
+            Guest.group == self.group).count()
 
-#    def update_happiness(self):
-#         let total count turtles-here
-#   let same count turtles-here with [color = [color] of myself]
-#   let opposite (total - same)
-#   ;; you are happy if the proportion of people of the opposite sex
-#   ;; does not exceed your tolerance
-#   set happy? (opposite / total) <= (tolerance / 100)
-# end
+        opposite = total - same
+        # you are happy if the proportion of people of the opposite sex
+        # does not exceed your tolerance
+        self.happy = (float(opposite) / float(total)) <= (self.tolerance)
 
 # to leave-if-unhappy  ;; turtle procedure
 #   if not happy? [
@@ -47,6 +54,9 @@ class Guest(Base):
 #   ]
 # end
 
-    def __repr__(self):        
-        return "g'%s %s@%s'" % (self.happy, self.sex, self.group)
+    def __repr__(self):
+        happy = "happy" if self.happy else "unhappy"
+        sex = "male" if self.sex else "female"
+        
+        return "'guest=%s %s %s@%s'" % (self.id, happy, sex, self.group)
 
