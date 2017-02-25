@@ -24,9 +24,11 @@ engine  = create_engine(args.db_url)
 Session = sessionmaker(bind=engine)
 
 session = Session()
+model.session=session
 
-g = model.Guest.query.get(args.guest)
+g = session.query(model.Guest).get(args.guest)
 
 for i in range(args.iterations):
     g.update_happiness()
+    g.leave_if_unhappy()
     sleep(args.sleep)
