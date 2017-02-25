@@ -1,5 +1,4 @@
 # coding: utf-8
-"""a directed graph example."""
 
 from sqlalchemy import MetaData, Table, Column, Integer, ForeignKey, String, Float, Boolean
 from sqlalchemy.orm import mapper, relationship
@@ -18,6 +17,7 @@ class Group(Base):
 
     
 class Guest(Base):
+    
     __tablename__ = 'guests'
     id = Column(Integer, primary_key=True)
     group_id = Column(Integer, ForeignKey('groups.id'))
@@ -26,13 +26,12 @@ class Guest(Base):
     happy   = Column(Boolean)
     sex = Column(Boolean)
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
         self.happy = random.choice([True, False])
         self.sex = random.choice([True, False])
-        self.group = random.choice(Group.query.all())
+        self.group = random.choice(session.query(Group).all())
 
-    def update_happiness(self):
+#    def update_happiness(self):
 #         let total count turtles-here
 #   let same count turtles-here with [color = [color] of myself]
 #   let opposite (total - same)
