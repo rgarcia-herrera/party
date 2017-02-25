@@ -9,8 +9,8 @@ import model
 ################################
 # parse command line arguments #
 ################################
-parser = argparse.ArgumentParser(description='edge interaction script')
-parser.add_argument('--db_url', default='sqlite:///party_sim.sqlite', help='DB URL, default: sqlite:///db.sqlite')
+parser = argparse.ArgumentParser(description='Setup party simulation by creating and populating groups and guests.')
+parser.add_argument('--db_url', default='sqlite:///party_sim.sqlite', help='DB URL, default: sqlite:///party_sim.sqlite')
 parser.add_argument('--guests', type=int, default=100)
 parser.add_argument('--groups', type=int, default=10)
 args = parser.parse_args()
