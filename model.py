@@ -13,6 +13,7 @@ class Group(Base):
     guests = relationship("Guest", back_populates="group")
 
     def boring(self):
+        """same sex groups are boring"""
         sexes = set([g.sex for g in self.guests])
         return len(sexes)==1        
 
