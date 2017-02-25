@@ -13,10 +13,12 @@ class Group(Base):
     guests = relationship("Guest", back_populates="group")
 
     def boring(self):
-        return True
+        sexes = set([g.sex for g in self.guests])
+        return len(sexes)==1        
 
     def __repr__(self):
-        return "group%s" % self.id
+        mood = "boring" if self.boring() else "exciting"
+        return "group%s, %s" % (self.id, mood)
     
     
 class Guest(Base):
@@ -47,16 +49,15 @@ class Guest(Base):
         # does not exceed your tolerance
         self.happy = (float(opposite) / float(total)) <= (self.tolerance)
 
-# to leave-if-unhappy  ;; turtle procedure
-#   if not happy? [
-#     set heading one-of [90 270]  ;; randomly face right or left
-#     fd 1                         ;; leave old group
-#   ]
-# end
+    def leave_if_unhappy(self):
+        if self.happy == False:
+            # join another random group
+            all_groups = session.query(Group).all()
+            all_groups.remove(self.group)
+            self.group = random.choice(all_groups)
 
     def __repr__(self):
         happy = "happy" if self.happy else "unhappy"
         sex = "male" if self.sex else "female"
-        
         return "'guest=%s %s %s@%s'" % (self.id, happy, sex, self.group)
 
