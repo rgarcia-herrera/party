@@ -49,6 +49,7 @@ class Guest(Base):
         # you are happy if the proportion of people of the opposite sex
         # does not exceed your tolerance
         self.happy = (float(opposite) / float(total)) <= (self.tolerance)
+        session.commit()
 
     def leave_if_unhappy(self):
         if self.happy == False:
@@ -56,6 +57,7 @@ class Guest(Base):
             all_groups = session.query(Group).all()
             all_groups.remove(self.group)
             self.group = random.choice(all_groups)
+            session.commit()
 
     def __repr__(self):
         happy = "happy" if self.happy else "unhappy"
