@@ -28,6 +28,11 @@ session = Session()
 model.Base.metadata.create_all(engine)
 model.session=session
 
+# drop everything for reset
+
+session.query(model.Guest).delete(synchronize_session='fetch')
+session.query(model.Group).delete(synchronize_session='fetch')
+
 # create a bunch of groups
 for n in range(args.groups):
     group=model.Group()
