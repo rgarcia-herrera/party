@@ -21,25 +21,27 @@ built on top of an Object-Relational Manager, so objects are kept in a
 relational database. The ORM makes it easy to query the agents and it
 allows for a distributed arquitechture.
 
-[model.py](model.py) holds the class definitions.
+ - [model.py](model.py) holds the class definitions.
 
-[sim_setup.py](sim_setup.py) is the equivalent of NetLogo's setup
-routine. In this case it initializes the simulation by creating all
-necessary tables in the database.
+ - [sim_setup.py](sim_setup.py) is the equivalent of NetLogo's setup
+   routine. In this case it initializes the simulation by creating all
+   necessary tables in the database.
 
-[guest_agent.py](guest_agent.py) is the equivalent of the toGo stance,
-except it makes a single agent run. Each agent runs as a separate
-process, in this way we can use all available CPUs. They share the
-simulation space by being clients of the database server.
+ - [guest_agent.py](guest_agent.py) is the equivalent of the toGo stance,
+   except it makes a single agent run. Each agent runs as a separate
+   process, in this way we can use all available CPUs. They share the
+   simulation space by being clients of the database server.
 
-[sim_run_all_guests.py](sim_run_all_guests.py) will print out a
-command to run each guest agent. These commands end with an & so they
-will be run on the background. This script is meant to be piped to sh.
+ - [sim_run_all_guests.py](sim_run_all_guests.py) will print out a
+   command to run each guest agent. These commands end with an & so they
+   will be run on the background. This script is meant to be piped to sh.
 
-[sim_monitor.py](sim_monitor.py) periodically queries the database and
-logs collected samples of the simulation states.
+ - [sim_monitor.py](sim_monitor.py) periodically queries the database and
+   logs collected samples of the simulation states.
 
-An example workflow can be seen in [sim_go.sh]: this script setups a
+# Example workflow
+
+An example workflow can be seen in [sim_go.sh](sim_go.sh): this script setups a
 simulation, a monitor and a bunch of agents and runs them all. It even
 creates a plot like this one:
 
