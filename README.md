@@ -7,19 +7,25 @@ This repo holds a re-write of that model.
 
 # Why?
 
-While running other NetLogo models we're facing some challenges:
+Well first of all we really don't need all the GUI stuff. But also
+while running other NetLogo models we're facing some challenges:
 
 - We need every iteration to copy agent states to a database, for
-  realtime monitoring from GIS apps that read it. 
+  realtime monitoring from GIS apps that read it. We've used the sql
+  extention, tho it's sometimes kinda brittle.
 
 - We want to run the simulation using all CPUs in our cluster. When
   using NetLogo we can use just those in a single box.
 
-This rewrite is Object Oriented, i.e. agents are objects, their
-behaviours are methods, their states are attributes. The classes are
-built on top of an Object-Relational Manager, so objects are kept in a
-relational database. The ORM makes it easy to query the agents and it
-allows for a distributed arquitechture.
+So I wrote this software to assess the effort required for rewritting
+and overhauling NetLogo models.
+
+This version of the Party model is Object Oriented, i.e. *agents are
+objects, their behaviours are methods, their states are
+attributes*. The classes are built on top of an Object-Relational
+Manager, so objects are kept in a relational database. The ORM makes
+it easy to query the agents and it allows for a distributed
+arquitechture.
 
  - [model.py](model.py) holds the class definitions.
 
