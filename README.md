@@ -25,7 +25,7 @@ objects, their behaviours are methods, their states are
 attributes*. The classes are built on top of an Object-Relational
 Manager, so objects are kept in a relational database. The ORM makes
 it easy to query the agents and it allows for a distributed
-arquitechture.
+architecture.
 
  - [model.py](model.py) holds the class definitions.
 
