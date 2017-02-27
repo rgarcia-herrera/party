@@ -1,31 +1,47 @@
 #!/bin/bash
 
+########################
+# Simulation arguments #
+########################
+GUESTS=50
+PARTY_GROUPS=10
+MIN_TOLERANCE=0.22
+MAX_TOLERANCE=0.25
+DURATION=10 # in seconds
+
+#####################
+# environment setup #
+#####################
+MONITOR_SLEEP=0.05 # delay between sampling 
+AGENT_SLEEP=0.1 # delay betwen agent iterations
+DB_URL=mysql://party:hola@localhost/party
+
+
 # setup simulation
-python sim_setup.py --guests 50 \
-       --groups 10 \
-       --min_tolerance 0.2 \
-       --max_tolerance 0.2 \
-       --db_url mysql://party:hola@localhost/party
+python sim_setup.py --guests $GUESTS \
+       --groups $PARTY_GROUPS \
+       --min_tolerance $MIN_TOLERANCE \
+       --max_tolerance $MAX_TOLERANCE \
+       --db_url $DB_URL
 
 # start logging monitor
-python sim_monitor.py --sleep 0.05 \
-       --db_url mysql://party:hola@localhost/party \
+python sim_monitor.py --sleep $MONITOR_SLEEP \
+       --db_url $DB_URL \
        --log run.log \
-       --seconds 12 &
+       --seconds $(($DURATION+2)) &
 
 sleep 0.02
 
 # start all agents!
-python sim_run_all_guests.py --sleep 0.1 \
-       --seconds 10 \
-       --db_url mysql://party:hola@localhost/party | sh
+python sim_run_all_guests.py --sleep $AGENT_SLEEP \
+       --seconds $DURATION \
+       --db_url $DB_URL | sh
 
 
 # let it cook for a short while
-sleep 15
+sleep $(($DURATION+4))
 
 # plot the log!
 python sim_plot.py --log run.log --fig run.png
 geeqie run.png
-
 
