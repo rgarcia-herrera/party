@@ -18,7 +18,7 @@ while running other NetLogo models we're facing some challenges:
   using NetLogo we can use just those in a single box.
 
 So I wrote this software to assess the effort required for rewritting
-and overhauling NetLogo models.
+and overhauling NetLogo models. Hint: it's easy.
 
 This version of the Party model is Object Oriented, i.e. *agents are
 objects, their behaviours are methods, their states are
