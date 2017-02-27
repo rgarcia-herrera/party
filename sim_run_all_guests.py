@@ -12,7 +12,7 @@ import model
 parser = argparse.ArgumentParser(description='Print command to run guest process for each guest in database.')
 parser.add_argument('--db_url', default='sqlite:///party_sim.sqlite', help='DB URL, default: sqlite:///party_sym.sqlite')
 parser.add_argument('--sleep', type=float, default=0.1)
-parser.add_argument('--iterations', type=int, default=200)
+parser.add_argument('--seconds', type=int, default=10)
 args = parser.parse_args()
 
 ####################
@@ -27,7 +27,7 @@ model.Base.metadata.create_all(engine)
 model.session=session
 
 for g in session.query(model.Guest).all():
-    print "python guest_agent.py --db_url %s --sleep %s --iterations %s --guest %s &" % (args.db_url,
+    print "python guest_agent.py --db_url %s --sleep %s --seconds %s --guest %s &" % (args.db_url,
                                                                                          args.sleep,
-                                                                                         args.iterations,
+                                                                                         args.seconds,
                                                                                          g.id)
